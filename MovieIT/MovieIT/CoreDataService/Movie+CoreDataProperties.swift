@@ -23,6 +23,7 @@ extension Movie {
     @NSManaged public var movieDescription: String?
     @NSManaged public var gender: String?
     @NSManaged public var realeseDate: Date?
+    @NSManaged public var id: UUID?
 
     var unwrappedName: String {
         name ?? ""
@@ -40,6 +41,9 @@ extension Movie {
         realeseDate ?? Date()
     }
     
+    var unwrappedId: UUID {
+        id ?? UUID()
+    }
 }
 
 extension Movie : Identifiable {
