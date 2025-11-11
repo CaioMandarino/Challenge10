@@ -8,12 +8,20 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
+    let facade = ManagerFacade()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        
+        Task{
+//            await facade.flowAddMovie(name: "Longas trancas do vovo careca")
+            await facade.flowListMovies()
+        }
+            
     }
-
-
 }
+
+
 
