@@ -7,7 +7,12 @@
 
 import UIKit
 
-class HomeViewController: UIViewController, HomeViewPresenterDelegate {
+protocol AddViewControllerDelegate: AnyObject {
+    func didAddNewMovie()
+}
+
+
+class HomeViewController: UIViewController, HomeViewPresenterDelegate, AddViewControllerDelegate {
     
     private var homeView: HomeView?
     
@@ -42,9 +47,17 @@ class HomeViewController: UIViewController, HomeViewPresenterDelegate {
     }
 
     private func apresentarAddView() {
-        let telaOlaMundo = AddViewController()
-        telaOlaMundo.modalPresentationStyle = .automatic
+        let telaAddMovie = AddViewController()
         
-        self.present(telaOlaMundo, animated: true, completion: nil)
+        telaAddMovie.delegate = self
+        
+        telaAddMovie.modalPresentationStyle = .automatic
+        
+        self.present(telaAddMovie, animated: true, completion: nil)
+    }
+    
+    func didAddNewMovie() {
+        print("HomeView notificada! Recarregando filmes...")
+        presenter.loadMovies()
     }
 }

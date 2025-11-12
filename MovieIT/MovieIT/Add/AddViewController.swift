@@ -7,9 +7,12 @@
 
 import UIKit
 
+
 class AddViewController: UIViewController {
     
     private var addView = AddView()
+    
+    weak var delegate: AddViewControllerDelegate?
     
     init(){
         super.init(nibName: nil, bundle: nil)
@@ -33,6 +36,8 @@ class AddViewController: UIViewController {
     }
     
     private func backHome(){
+        delegate?.didAddNewMovie()
+        
         if let nav = navigationController {
             nav.popViewController(animated: true)
         } else {
