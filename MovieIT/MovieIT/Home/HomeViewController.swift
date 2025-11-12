@@ -31,9 +31,7 @@ class HomeViewController: UIViewController, HomeViewPresenterDelegate {
             self?.apresentarAddView()
         }
     }
-    
-<<<<<<< HEAD
-    
+        
     func didLoadMovies(_ movies: [MovieForShow]) {
         homeView?.updateMovieList(with: movies)
         print("Foi, os filmes vao aparecer")
@@ -42,16 +40,10 @@ class HomeViewController: UIViewController, HomeViewPresenterDelegate {
     func didFail(with error: Error) {
         print("Falha ao carregar filmes: \(error.localizedDescription)")
     }
-    
-    private func apresentarOlaMundo() {
-        let telaOlaMundo = OlaMundo()
-        telaOlaMundo.modalPresentationStyle = .fullScreen
-=======
 
     private func apresentarAddView() {
         let telaOlaMundo = AddViewController()
         telaOlaMundo.modalPresentationStyle = .automatic
->>>>>>> origin/feature/addmvp
         
         self.present(telaOlaMundo, animated: true, completion: nil)
     }
