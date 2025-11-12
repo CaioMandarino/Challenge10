@@ -21,9 +21,11 @@ struct MovieForShow: Identifiable {
 
 class ManagerFacade {
     private let dbManager: DatabaseManager
+    private let networkAdapter: TMDBServiceProtocol
 
-    init(dbManager: DatabaseManager = DatabaseManager()) {
+    init(dbManager: DatabaseManager = DatabaseManager(), networkAdapter: some TMDBServiceProtocol) {
         self.dbManager = dbManager
+        self.networkAdapter = networkAdapter
     }
 
     var resultByName: [Movie] = []
@@ -36,21 +38,24 @@ class ManagerFacade {
 
         do {
             resultByName = try dbManager.getElements(filter: predicate)
-            print("Filmes encontrados:", resultByName)
+            
+            if resultByName.count > 0 {
+                return
+            }
+            
         } catch {
             print("Erro ao buscar filmes: \(error)")
         }
 
-        if resultByName.count > 0 {
-            print("O filme já existe na base de dados")
+        guard let response = try? await networkAdapter.fetchMovie(name: name), let firstElement = response.results.first else {
+            print("Problema ao buscar na API")
             return
         }
+        
+        print(firstElement)
 
-        let response = fakeNetworkService(name: name)
-
-        let movie: Movie = await convertNetworkResponseToMovie(
-            response: response
-        )
+        let movie: Movie = await convertNetworkResponseToMovie(response: firstElement)
+        
         print(movie)
 
         do {
@@ -87,24 +92,17 @@ class ManagerFacade {
 }
 
 extension ManagerFacade {
-    func fakeNetworkService(name: String) -> Response {
-        Response(
-            name: name,
-            gender: "Action",
-            movieDescription: "Adicionado em caso de nao existir",
-            image: "s7TukeSpxlqOaNJ7cRcUDbn5br4.jpg",
-            releaseData: Date()
-        )
-    }
-    private func convertNetworkResponseToMovie(response: Response) async -> Movie{
+
+    private func convertNetworkResponseToMovie(response: Results) async -> Movie {
         let context = dbManager.context
         let convertedMovie = Movie(context: context)
 
-        convertedMovie.name = response.name
-        convertedMovie.gender = response.gender
-        convertedMovie.movieDescription = response.movieDescription
-
-        let fullURL = "https://image.tmdb.org/t/p/w500/\(response.image)"
+        convertedMovie.name = response.title
+        convertedMovie.gender = ""
+        convertedMovie.movieDescription = response.overview
+        convertedMovie.id = UUID()
+        
+        let fullURL = "https://image.tmdb.org/t/p/w500/\(response.posterPath)"
 
         if let imageData = await downloadImageData(url: fullURL) {
             convertedMovie.image = imageData
@@ -144,12 +142,4 @@ extension ManagerFacade {
         return image ?? UIImage() // placeholder
     }
 
-}
-
-struct Response {  // com base na resposta da url
-    let name: String
-    let gender: String
-    let movieDescription: String
-    let image: String
-    let releaseData: Date
 }

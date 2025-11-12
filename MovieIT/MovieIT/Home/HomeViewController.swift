@@ -35,6 +35,7 @@ class HomeViewController: UIViewController, HomeViewPresenterDelegate, AddViewCo
             print("Controller foi")
             self?.apresentarAddView()
         }
+        
     }
         
     func didLoadMovies(_ movies: [MovieForShow]) {

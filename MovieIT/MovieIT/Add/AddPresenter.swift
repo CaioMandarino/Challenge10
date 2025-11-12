@@ -9,11 +9,11 @@ import Foundation
 
 class AddPresenter {
     
-    private weak var delegate: AddPresenterDelegate?
-    private var facadeService = ManagerFacade()
-
-    init(delegate: AddPresenterDelegate? = nil) {
-        self.delegate = delegate
+    private weak var addView: AddViewDelegate?
+    private var facadeService = ManagerFacade(networkAdapter: NetworkingServiceAdapter(networkService: .init()))
+    
+    init(addView: AddViewDelegate? = nil) {
+        self.addView = addView
     }
     
     
