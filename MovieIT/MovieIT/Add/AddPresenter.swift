@@ -12,7 +12,7 @@ import Foundation
 class AddPresenter {
     
     private weak var addView: AddViewDelegate?
-    private var facadeService = ManagerFacade()
+    private var facadeService = ManagerFacade(networkAdapter: NetworkingServiceAdapter(networkService: .init()))
     
     init(addView: AddViewDelegate? = nil) {
         self.addView = addView

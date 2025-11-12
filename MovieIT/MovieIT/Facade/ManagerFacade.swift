@@ -38,21 +38,21 @@ class ManagerFacade {
 
         do {
             resultByName = try dbManager.getElements(filter: predicate)
-            print("Filmes encontrados:", resultByName)
-            return
+            
+            if resultByName.count > 0 {
+                return
+            }
+            
         } catch {
             print("Erro ao buscar filmes: \(error)")
         }
 
-        if resultByName.count > 0 {
-            print("O filme já existe na base de dados")
-            return
-        }
-
-        guard let response = try? await networkAdapter.fetchMovie(), let firstElement = response.results.first else {
+        guard let response = try? await networkAdapter.fetchMovie(name: name), let firstElement = response.results.first else {
             print("Problema ao buscar na API")
             return
         }
+        
+        print(firstElement)
 
         let movie: Movie = await convertNetworkResponseToMovie(response: firstElement)
         
@@ -100,8 +100,9 @@ extension ManagerFacade {
         convertedMovie.name = response.title
         convertedMovie.gender = ""
         convertedMovie.movieDescription = response.overview
-
-        let fullURL = "https://image.tmdb.org/t/p/w500/\(response.postPath)"
+        convertedMovie.id = UUID()
+        
+        let fullURL = "https://image.tmdb.org/t/p/w500/\(response.posterPath)"
 
         if let imageData = await downloadImageData(url: fullURL) {
             convertedMovie.image = imageData

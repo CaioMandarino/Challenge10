@@ -22,11 +22,12 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-
+        
         homeView?.onButtonClick = { [weak self] in
             print("Controller foi")
             self?.apresentarAddView()
         }
+        
     }
     
 

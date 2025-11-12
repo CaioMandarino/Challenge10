@@ -14,14 +14,14 @@ struct MovieResponse: Decodable {
 struct Results: Decodable {
     
     let title: String
-    let postPath: String
     let overview: String
-    let releaseDate: String
+    let posterPath: String?
+    let releaseDate: String?
     
     enum CodingKeys: String, CodingKey {
         case title
         case overview
-        case postPath = "poster_path"
+        case posterPath = "poster_path"
         case releaseDate = "release_date"
     }
 }

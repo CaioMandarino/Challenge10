@@ -9,5 +9,5 @@ import Foundation
 
 protocol TMDBServiceProtocol{
     func fetchMovie(completionHandeler: @escaping (Result<MovieResponse, Error>) -> Void)
-    func fetchMovie() async throws -> MovieResponse 
+    func fetchMovie(name: String) async throws -> MovieResponse
 }
