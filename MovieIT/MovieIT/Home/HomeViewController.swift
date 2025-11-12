@@ -28,13 +28,6 @@ class HomeViewController: UIViewController {
             self?.apresentarAddView()
         }
         
-        
-        let facade = ManagerFacade(networkAdapter: NetworkingServiceAdapter(networkService: .init()))
-        
-        Task {
-            await facade.flowAddMovie(name: "Cars")
-
-        }
     }
     
 

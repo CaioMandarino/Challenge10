@@ -15,7 +15,7 @@ struct Results: Decodable {
     
     let title: String
     let overview: String
-    let posterPath: String
+    let posterPath: String?
     let releaseDate: String?
     
     enum CodingKeys: String, CodingKey {

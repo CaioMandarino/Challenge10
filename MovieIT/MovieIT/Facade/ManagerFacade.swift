@@ -100,7 +100,8 @@ extension ManagerFacade {
         convertedMovie.name = response.title
         convertedMovie.gender = ""
         convertedMovie.movieDescription = response.overview
-
+        convertedMovie.id = UUID()
+        
         let fullURL = "https://image.tmdb.org/t/p/w500/\(response.posterPath)"
 
         if let imageData = await downloadImageData(url: fullURL) {
