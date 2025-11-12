@@ -28,10 +28,11 @@ class HomeViewController: UIViewController, HomeViewPresenterDelegate {
 
         homeView?.onButtonClick = { [weak self] in
             print("Controller foi")
-            self?.apresentarOlaMundo()
+            self?.apresentarAddView()
         }
     }
     
+<<<<<<< HEAD
     
     func didLoadMovies(_ movies: [MovieForShow]) {
         homeView?.updateMovieList(with: movies)
@@ -45,6 +46,12 @@ class HomeViewController: UIViewController, HomeViewPresenterDelegate {
     private func apresentarOlaMundo() {
         let telaOlaMundo = OlaMundo()
         telaOlaMundo.modalPresentationStyle = .fullScreen
+=======
+
+    private func apresentarAddView() {
+        let telaOlaMundo = AddViewController()
+        telaOlaMundo.modalPresentationStyle = .automatic
+>>>>>>> origin/feature/addmvp
         
         self.present(telaOlaMundo, animated: true, completion: nil)
     }
