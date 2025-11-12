@@ -49,25 +49,3 @@ final class NetworkingServiceAdapter: TMDBServiceProtocol { // protocol interfac
         return decodedData
     }
 }
-
-
-struct MovieResponse: Decodable {
-    let results: [Results]
-}
-
-struct Results: Decodable {
-    
-    let title: String
-    let postPath: String
-    let overview: String
-    let realeseDate: String
-    
-    enum CodingKeys: String, CodingKey {
-        case title
-        case overview
-        case postPath = "poster_path"
-        case realeseDate = "release_date"
-    }
-}
-
-
