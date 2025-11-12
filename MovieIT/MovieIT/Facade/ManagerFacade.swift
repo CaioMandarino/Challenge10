@@ -56,8 +56,6 @@ class ManagerFacade {
 
         let movie: Movie = await convertNetworkResponseToMovie(response: firstElement)
         
-        print(movie)
-
         do {
             try dbManager.add(movie)
             print("Filme adicionado")
@@ -78,8 +76,6 @@ class ManagerFacade {
                 let movieForShow = await mapToMovieForShow(movie)
                 moviesForShow.append(movieForShow)
             }
-            
-            print(moviesForShow)
             
             return moviesForShow
         } catch {
@@ -102,10 +98,11 @@ extension ManagerFacade {
         convertedMovie.movieDescription = response.overview
         convertedMovie.id = UUID()
         
-        let fullURL = "https://image.tmdb.org/t/p/w500/\(response.posterPath)"
+        let fullURL = "https://image.tmdb.org/t/p/w500/\(response.posterPath ?? "")"
 
         if let imageData = await downloadImageData(url: fullURL) {
-            convertedMovie.image = imageData
+            let image = UIImage(data: imageData)
+            convertedMovie.image = image?.jpegData(compressionQuality: 1.0)
         }
 
         return convertedMovie

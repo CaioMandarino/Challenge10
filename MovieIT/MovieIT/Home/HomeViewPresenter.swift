@@ -21,7 +21,7 @@ class HomeViewPresenter {
     
     weak var delegate: HomeViewPresenterDelegate?
     
-    init(facade: ManagerFacade = ManagerFacade()) {
+    init(facade: ManagerFacade = ManagerFacade(networkAdapter: NetworkingServiceAdapter(networkService: .init()))) {
         self.facade = facade
     }
     
