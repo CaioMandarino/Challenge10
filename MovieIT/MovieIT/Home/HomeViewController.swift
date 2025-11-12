@@ -7,10 +7,11 @@
 
 import UIKit
 
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController, HomeViewPresenterDelegate {
     
     private var homeView: HomeView?
-
+    
+    private let presenter = HomeViewPresenter()
 
     override func loadView() {
         let view = HomeView(frame: UIScreen.main.bounds)
@@ -18,10 +19,12 @@ class HomeViewController: UIViewController {
         self.view = view
     }
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        presenter.delegate = self
+        
+        presenter.loadMovies()
 
         homeView?.onButtonClick = { [weak self] in
             print("Controller foi")
@@ -29,19 +32,20 @@ class HomeViewController: UIViewController {
         }
     }
     
-
+    
+    func didLoadMovies(_ movies: [MovieForShow]) {
+        homeView?.updateMovieList(with: movies)
+        print("Foi, os filmes vao aparecer")
+    }
+    
+    func didFail(with error: Error) {
+        print("Falha ao carregar filmes: \(error.localizedDescription)")
+    }
+    
     private func apresentarOlaMundo() {
         let telaOlaMundo = OlaMundo()
         telaOlaMundo.modalPresentationStyle = .fullScreen
         
         self.present(telaOlaMundo, animated: true, completion: nil)
     }
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
-
 }

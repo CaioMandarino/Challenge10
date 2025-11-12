@@ -68,4 +68,8 @@ class HomeView: UIView {
         print("Botão na HomeView foi tocado, avisando o controller...")
         onButtonClick?()
     }
+    
+    func updateMovieList(with movies: [MovieForShow]) {
+        movieListView.displayMovies(movies)
+    }
 }

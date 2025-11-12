@@ -5,16 +5,34 @@
 //  Created by Pedro Santos on 11/11/25.
 //
 
-import UIKit
+import Foundation
+import UIKit // Necessário para o UIImage dentro de MovieForShow
 
-class HomeViewPresenter: UIView {
+// 1. Criamos um protocolo. O ViewController vai implementar isso
+// para ser "avisado" quando os filmes chegarem.
+protocol HomeViewPresenterDelegate: AnyObject {
+    func didLoadMovies(_ movies: [MovieForShow])
+    func didFail(with error: Error)
+}
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+class HomeViewPresenter {
+
+    private let facade: ManagerFacade
+    
+    weak var delegate: HomeViewPresenterDelegate?
+    
+    init(facade: ManagerFacade = ManagerFacade()) {
+        self.facade = facade
     }
-    */
+    
+    func loadMovies() {
 
+        Task {
+            let movies = await facade.flowListMovies()
+            
+            await MainActor.run {
+                delegate?.didLoadMovies(movies)
+            }
+        }
+    }
 }
