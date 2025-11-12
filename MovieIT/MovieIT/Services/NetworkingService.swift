@@ -36,8 +36,8 @@ class NetworkingService {
         task.resume()
     }
     
-    func fetch(endpoint: String) async throws -> Data { //Moderna
-        let fullURLString = "https://api.themoviedb.org/3/\(endpoint)?api_key=\(apiKey)"
+    func fetch(endpoint: String, name: String) async throws -> Data { //Moderna
+        let fullURLString = "https://api.themoviedb.org/3/\(endpoint)?api_key=\(apiKey)&query=\(name)"
 
         guard let url = URL(string: fullURLString) else {
             throw URLError(.badURL)

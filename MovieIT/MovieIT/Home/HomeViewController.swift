@@ -22,10 +22,18 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-
+        
         homeView?.onButtonClick = { [weak self] in
             print("Controller foi")
             self?.apresentarAddView()
+        }
+        
+        
+        let facade = ManagerFacade(networkAdapter: NetworkingServiceAdapter(networkService: .init()))
+        
+        Task {
+            await facade.flowAddMovie(name: "Cars")
+
         }
     }
     

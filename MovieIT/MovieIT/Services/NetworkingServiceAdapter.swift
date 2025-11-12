@@ -39,8 +39,8 @@ final class NetworkingServiceAdapter: TMDBServiceProtocol { // protocol interfac
     }
     
     
-    func fetchMovie() async throws -> MovieResponse { // moderno, async e await
-        let data = try await networkService.fetch(endpoint: "movie/popular")
+    func fetchMovie(name: String) async throws -> MovieResponse { // moderno, async e await
+        let data = try await networkService.fetch(endpoint: "search/movie", name: name)
         
         guard let decodedData = try? JSONDecoder().decode(MovieResponse.self, from: data) else {
             throw URLError(.dataNotAllowed)
