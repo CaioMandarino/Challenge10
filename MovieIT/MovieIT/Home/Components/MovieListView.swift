@@ -28,7 +28,7 @@ class MovieListView: UIView {
         
         setupHierarchy()
         setupConstraints()
-        addExampleMovieComponents()
+        // A função de exemplos foi removida daqui
     }
     
     required init?(coder: NSCoder) {
@@ -58,14 +58,22 @@ class MovieListView: UIView {
         ])
     }
     
-    private func addExampleMovieComponents() {
-        for i in 1...15 {
-            let filme = MovieComponent()
-            filme.nomeLabel.text = "Filme de Exemplo Título \(i)"
-            filme.imagemView.backgroundColor = .systemGray4
-            filme.imagemView.layer.cornerRadius = 8
+    // Esta é a nova função pública para exibir os filmes
+    public func displayMovies(_ movies: [MovieForShow]) {
+        // Limpa a stack view antes de adicionar novos filmes
+        stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        
+        // Adiciona os filmes reais recebidos
+        for movie in movies {
+            let movieComponent = MovieComponent()
+            movieComponent.nomeLabel.text = movie.name
+            movieComponent.imagemView.image = movie.image // 'MovieForShow' já tem a UIImage
             
-            stackView.addArrangedSubview(filme)
+            // Configurações de layout
+            movieComponent.imagemView.backgroundColor = .systemGray4
+            movieComponent.imagemView.layer.cornerRadius = 8
+            
+            stackView.addArrangedSubview(movieComponent)
         }
     }
 }

@@ -5,8 +5,6 @@
 //  Created by Manoel Pedro Prado Sa Teles on 11/11/25.
 //
 
-// Ir no facade e chamar minha funcao de verificar os filnes
-
 import Foundation
 
 class AddPresenter {
@@ -21,9 +19,8 @@ class AddPresenter {
     
     @MainActor func save(_ title: String) async  {
         await facadeService.flowAddMovie(name: title)
-        addView?.backToHome()
         
+        delegate?.didFinishSaving()
     }
-    
     
 }

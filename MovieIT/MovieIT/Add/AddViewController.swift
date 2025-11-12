@@ -7,9 +7,12 @@
 
 import UIKit
 
+
 class AddViewController: UIViewController {
     
     private var addView = AddView()
+    
+    weak var delegate: AddViewControllerDelegate?
     
     init(){
         super.init(nibName: nil, bundle: nil)
@@ -22,17 +25,19 @@ class AddViewController: UIViewController {
     override func loadView() {
         super.loadView()
         setupAddView()
-        
     }
     
     private func setupAddView(){
-        let presenter = AddPresenter(addView: addView)
+        let presenter = AddPresenter(delegate: self)
+        
         addView.delegate = self
         addView.presenter = presenter
         self.view = addView
     }
     
     private func backHome(){
+        delegate?.didAddNewMovie()
+        
         if let nav = navigationController {
             nav.popViewController(animated: true)
         } else {
@@ -43,4 +48,12 @@ class AddViewController: UIViewController {
 
 extension AddViewController: AddViewDelegate {
     func backToHome(){ backHome()}
+}
+
+extension AddViewController: AddPresenterDelegate {
+    func didFinishSaving() {
+        DispatchQueue.main.async {
+            self.backHome()
+        }
+    }
 }
