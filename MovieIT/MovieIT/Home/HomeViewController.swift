@@ -25,14 +25,14 @@ class HomeViewController: UIViewController {
 
         homeView?.onButtonClick = { [weak self] in
             print("Controller foi")
-            self?.apresentarOlaMundo()
+            self?.apresentarAddView()
         }
     }
     
 
-    private func apresentarOlaMundo() {
-        let telaOlaMundo = OlaMundo()
-        telaOlaMundo.modalPresentationStyle = .fullScreen
+    private func apresentarAddView() {
+        let telaOlaMundo = AddViewController()
+        telaOlaMundo.modalPresentationStyle = .automatic
         
         self.present(telaOlaMundo, animated: true, completion: nil)
     }
