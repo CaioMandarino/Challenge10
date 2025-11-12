@@ -12,19 +12,15 @@ import Foundation
 class AddPresenter {
     
     private weak var addView: AddViewDelegate?
-//  private var facadeService
-//  private(set) var filme: FilmeModel
+    private var facadeService = ManagerFacade()
     
     init(addView: AddViewDelegate? = nil) {
         self.addView = addView
     }
     
-    func newText(_ title: String) -> Texto {
-        return Texto(text: title)
-    }
     
-    func save(_ title: String) throws  {
-        
+    @MainActor func save(_ title: String) async  {
+        await facadeService.flowAddMovie(name: title)
         addView?.backToHome()
         
     }

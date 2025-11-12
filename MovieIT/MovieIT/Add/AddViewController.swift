@@ -21,17 +21,26 @@ class AddViewController: UIViewController {
     
     override func loadView() {
         super.loadView()
+        setupAddView()
         
     }
     
     private func setupAddView(){
         let presenter = AddPresenter(addView: addView)
-        // addView.delegate = self
-        // addView.presenter = presenter
+        addView.delegate = self
+        addView.presenter = presenter
         self.view = addView
     }
     
     private func backHome(){
-        navigationController?.popViewController(animated: true)
+        if let nav = navigationController {
+            nav.popViewController(animated: true)
+        } else {
+            dismiss(animated: true)
+        }
     }
+}
+
+extension AddViewController: AddViewDelegate {
+    func backToHome(){ backHome()}
 }
