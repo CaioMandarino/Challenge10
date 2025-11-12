@@ -62,23 +62,17 @@ class AddView: UIView {
         
         NSLayoutConstraint.activate([
             
-            // Caixa de texto no centro
-            
             textWriter.centerXAnchor.constraint(equalTo: centerXAnchor),
             textWriter.centerYAnchor.constraint(equalTo: centerYAnchor),
-            
             textWriter.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 24),
             textWriter.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -24),
             textWriter.widthAnchor.constraint(lessThanOrEqualToConstant: 400),
             
-            // Botao Back
             backButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 12),
             backButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             
-            //Botao Save
             saveButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 12),
             saveButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
-            
         ])
     }
     
@@ -93,12 +87,11 @@ class AddView: UIView {
     
     @objc func saveTapped(){
         guard let text = textWriter.text, !text.isEmpty else { return }
+        
         Task { [weak self] in
             guard let presenter = self?.presenter else { return }
             await presenter.save(text)
         }
-        
-        delegate?.backToHome()
     }
 }
 

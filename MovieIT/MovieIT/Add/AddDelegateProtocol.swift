@@ -10,3 +10,7 @@ import Foundation
 protocol AddViewDelegate: AnyObject {
     func backToHome()
 }
+
+protocol AddPresenterDelegate: AnyObject {
+    func didFinishSaving()
+}

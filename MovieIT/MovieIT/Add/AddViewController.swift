@@ -25,11 +25,11 @@ class AddViewController: UIViewController {
     override func loadView() {
         super.loadView()
         setupAddView()
-        
     }
     
     private func setupAddView(){
-        let presenter = AddPresenter(addView: addView)
+        let presenter = AddPresenter(delegate: self)
+        
         addView.delegate = self
         addView.presenter = presenter
         self.view = addView
@@ -48,4 +48,12 @@ class AddViewController: UIViewController {
 
 extension AddViewController: AddViewDelegate {
     func backToHome(){ backHome()}
+}
+
+extension AddViewController: AddPresenterDelegate {
+    func didFinishSaving() {
+        DispatchQueue.main.async {
+            self.backHome()
+        }
+    }
 }
